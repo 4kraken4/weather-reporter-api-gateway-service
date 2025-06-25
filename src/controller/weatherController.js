@@ -22,7 +22,7 @@ const weatherController = {
         Config.getInstance().services.weather.name
       );
       const response = await breaker.fire(req);
-      res.status(200).json(response);
+      res.status(200).json(response.data);
     } catch (error) {
       console.error('Error in /current/:id:', error);
       next(error);
@@ -35,7 +35,7 @@ const weatherController = {
         Config.getInstance().services.weather.name
       );
       const response = await breaker.fire(req);
-      res.status(200).json(response);
+      res.status(200).json(response.data);
     } catch (error) {
       console.error('Error in /current/:id:', error);
       next(error);

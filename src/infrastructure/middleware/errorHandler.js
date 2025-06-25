@@ -148,6 +148,11 @@ const errorList = {
     "We couldn't find the user you're looking for. Please check the user's details and try again.",
     404
   ),
+  RegionNotFoundError: generateErrorMessage(
+    'RegionNotFoundError',
+    "We couldn't find the region you're looking for. Please check the region details.",
+    404
+  ),
   ProductNotFoundError: generateErrorMessage(
     'ProductNotFoundError',
     "We couldn't find the product you're looking for. Please check the product details.",
