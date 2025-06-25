@@ -27,6 +27,19 @@ const weatherController = {
       console.error('Error in /current/:id:', error);
       next(error);
     }
+  },
+  getWeatherByCityName: async (req, res, next) => {
+    try {
+      const breaker = getCircuitBreakerInstance(
+        WeatherProxy.getWeatherByCityName,
+        Config.getInstance().services.weather.name
+      );
+      const response = await breaker.fire(req);
+      res.status(200).json(response);
+    } catch (error) {
+      console.error('Error in /current/:id:', error);
+      next(error);
+    }
   }
 };
 
