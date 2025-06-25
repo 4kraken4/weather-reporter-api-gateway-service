@@ -23,4 +23,15 @@ export default class WeatherProxy {
     const response = await WeatherProxy.httpClient.get(`/current/${cityId}`);
     return response.data;
   }
+
+  static async getWeatherByCityName(req) {
+    const { city, ccode } = req.query;
+    if (!city && !ccode) {
+      throw new Error('City name or country code is required');
+    }
+    const response = await WeatherProxy.httpClient.get(`/current`, {
+      params: { region: city, code: ccode }
+    });
+    return response.data;
+  }
 }

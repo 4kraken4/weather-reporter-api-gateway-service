@@ -18,4 +18,10 @@ weatherRoutes.get(
   weatherController.getWeatherByCity
 );
 
+weatherRoutes.get(
+  '/current',
+  injectGrants(RESOURCES.WEATHER, ACTIONS.READANY),
+  weatherController.getWeatherByCityName
+);
+
 export default weatherRoutes;
