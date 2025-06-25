@@ -2,8 +2,7 @@ import Config from '../../config/Config.js';
 
 const config = Config.getInstance();
 
-// const URL_WHITELIST = ['https://rsc-evt.test', 'http://localhost:8180']
-const URL_WHITELIST = [];
+const URL_WHITELIST = ['https://weather-reporter-pi.vercel.app'];
 
 if (Config.getInstance().service.env === 'development') {
   URL_WHITELIST.push(
