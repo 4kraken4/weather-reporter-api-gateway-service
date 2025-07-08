@@ -5,7 +5,6 @@ import { Server } from 'socket.io';
 
 import app from './app.js';
 import Config from './config/Config.js';
-import UrlUtils from './utils/UrlUtils.js';
 
 const config = Config.getInstance();
 
@@ -15,7 +14,7 @@ const connectedClients = [];
 
 const io = new Server(server, {
   cors: {
-    origin: UrlUtils.buildServiceBaseUrl(config.client, false),
+    origin: config.client.baseUrl,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -51,26 +50,24 @@ io.on('connection', socket => {
 });
 
 // For local development only
+// eslint-disable-next-line no-undef
 if (process.env.NODE_ENV !== 'production') {
   server.listen(config.service.port, () => {
-    // Build URLs using UrlUtils for consistency
-    const serverUrl = UrlUtils.buildServiceBaseUrl(config.service, false);
-    const clientUrl = UrlUtils.buildServiceBaseUrl(config.client, false);
-    const healthUrl = UrlUtils.buildEndpointUrl(
-      serverUrl,
-      `/${config.app.healthUrl}`
+    console.log(
+      `Server is running at ${config.service.protocol}://${config.service.host}:${config.service.port}`
     );
-    const swaggerUrl = UrlUtils.buildEndpointUrl(
-      serverUrl,
-      `/${config.app.swaggerUrl}`
+    console.log(
+      `Client is running at ${config.client.protocol}://${config.client.host}:${config.client.port}`
     );
-    const websocketUrl = `ws://${config.service.host}:${config.service.port}`;
-
-    console.log(`Server is running at ${serverUrl}`);
-    console.log(`Client is running at ${clientUrl}`);
-    console.log(`Server health check: ${healthUrl}`);
-    console.log(`Web socket is running at ${websocketUrl}`);
-    console.log(`Swagger is running at ${swaggerUrl}`);
+    console.log(
+      `Server health check: ${config.service.protocol}://${config.service.host}:${config.service.port}/${config.service.routePrefix}/${config.app.healthUrl}`
+    );
+    console.log(
+      `Web socket is running at ws://${config.service.host}:${config.service.port}`
+    );
+    console.log(
+      `Swagger is running at ${config.service.protocol}://${config.service.host}:${config.service.port}/${config.service.routePrefix}/${config.app.swaggerUrl}`
+    );
   });
 }
 

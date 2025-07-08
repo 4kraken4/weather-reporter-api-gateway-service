@@ -17,8 +17,5 @@ export default {
   },
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  transformIgnorePatterns: ['<rootDir>/node_modules/(?!(\\.mjs|logger.js))$'],
-  forceExit: true,
-  detectOpenHandles: true,
-  testTimeout: 10000
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!(\\.mjs|logger.js))$']
 };

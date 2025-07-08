@@ -1,34 +1,5 @@
 {
-  "watch": ["src/", "db/", ".env", ".env.development"],
-  "ext": "js,mjs,json,env",
-  "ignore": [
-    "tests/",
-    "test/",
-    "*.test.js",
-    "*.spec.js",
-    "coverage/",
-    "logs/",
-    "node_modules/",
-    "dist/",
-    "build/",
-    ".git/",
-    "*.log",
-    "*.tmp"
-  ],
-  "exec": "node --trace-warnings --enable-source-maps src/server.js",
-  "env": {
-    "NODE_ENV": "development",
-    "NODE_OPTIONS": "--max-old-space-size=2048"
-  },
-  "delay": "1000",
-  "verbose": true,
-  "restartable": "rs",
-  "colours": true,
-  "legacyWatch": false,
-  "signal": "SIGTERM",
-  "events": {
-    "start": "echo '🚀 Weather Service starting...'",
-    "restart": "echo '🔄 Weather Service restarting due to file changes...'",
-    "crash": "echo '💥 Weather Service crashed - waiting for file changes before restart'"
-  }
+  "watch": ["src/"],
+  "ignore": ["test/"],
+  "exec": "node --trace-warnings src/server.js"
 }

@@ -1,22 +1,13 @@
 import { Router } from 'express';
 
 import Config from '../../../config/Config.js';
+import authenticate from '../../../infrastructure/middleware/authenticate.js';
 
-import healthRoutes from './healthRoutes.js';
+import authRoutes from './authRoutes.js';
+import userRoutes from './userRoutes.js';
 import weatherRoutes from './weatherRoutes.js';
 
 const router = Router();
-
-// Basic health check endpoint
-router.get('/', (_, res) => {
-  res.json({
-    message: 'Weather Reporter API Gateway is running',
-    application: Config.getInstance().app.name,
-    service: Config.getInstance().service.name,
-    version: Config.getInstance().service.version,
-    date: new Date().toUTCString()
-  });
-});
 
 router.get('/health', (_, res) => {
   res.json({
@@ -27,7 +18,8 @@ router.get('/health', (_, res) => {
   });
 });
 
-router.use('/health', healthRoutes);
+router.use('/auth', authRoutes);
+router.use('/users', authenticate, userRoutes);
 router.use('/weather', weatherRoutes);
 router.use('*', (_, res) => {
   res.status(404).json({ message: 'Not Found' });

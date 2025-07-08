@@ -48,6 +48,5 @@
     "**/.factorypath": true
   },
   "files.eol": "\n",
-  "files.insertFinalNewline": true,
-  "jest.runMode": "on-demand"
+  "files.insertFinalNewline": true
 }
