@@ -1,14 +1,8 @@
 import Config from '../../config/Config.js';
+import UrlUtils from '../../utils/UrlUtils.js';
 
 const config = Config.getInstance();
 
-// const URL_WHITELIST = ['https://rsc-evt.test', 'http://localhost:8180']
-const URL_WHITELIST = [];
-
-if (Config.getInstance().service.env === 'development') {
-  URL_WHITELIST.push(
-    `${config.client.protocol}://${config.client.host}:${config.client.port}`
-  );
-}
+const URL_WHITELIST = [UrlUtils.buildServiceBaseUrl(config.client, false)];
 
 export default URL_WHITELIST;

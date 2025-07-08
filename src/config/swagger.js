@@ -1,6 +1,8 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
+import UrlUtils from '../utils/UrlUtils.js';
+
 import Config from './Config.js';
 
 const config = Config.getInstance();
@@ -31,7 +33,7 @@ const options = {
   apis: ['./src/interfaces/http/routes/*.js'],
   servers: [
     {
-      url: `${config.service.protocol}://${config.service.host}:${config.service.port}/${config.service.routePrefix}`
+      url: UrlUtils.buildServiceBaseUrl(config.service, false)
     }
   ]
 };
