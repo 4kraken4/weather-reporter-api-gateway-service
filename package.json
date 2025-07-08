@@ -7,11 +7,26 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node src/server.js",
     "dev": "cross-env NODE_ENV=development nodemon src/server.js",
+    "dev:debug": "cross-env NODE_ENV=development nodemon --config nodemon.dev.json",
+    "dev:staging": "cross-env NODE_ENV=staging nodemon --config nodemon.staging.json",
+    "dev:watch": "cross-env NODE_ENV=development nodemon --watch src --watch db",
     "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:bulk-weather": "node scripts/test-bulk-weather.js",
+    "test:weather-search": "node scripts/test-weather-search.js",
+    "test:weather-city": "node scripts/test-weather-city.js",
+    "test:weather-endpoints": "npm run test:weather-search && npm run test:weather-city && npm run test:bulk-weather",
+    "test:runner": "node scripts/test-runner.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,js,mjs,cjs,css,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,js,mjs,cjs,css,md}\""
+    "format:check": "prettier --check \"src/**/*.{ts,js,mjs,cjs,css,md}\"",
+    "docker:dev": "docker-compose up -d",
+    "docker:dev:down": "docker-compose down",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker-compose -f docker-compose.prod.yml down",
+    "docker:build": "docker build -t weather-service .",
+    "docker:clean": "docker system prune -f && docker volume prune -f"
   },
   "keywords": [],
   "author": {
@@ -46,10 +61,13 @@
     "eslint": "^9.12.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.21.0",
     "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-security": "^3.0.1",
     "globals": "^15.10.0",
     "jest": "^29.7.0",
     "nodemon": "^3.1.7",
-    "prettier": "^3.6.0"
+    "prettier": "^3.6.0",
+    "supertest": "^7.1.1"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "watch": ["src/", "db/"],
+  "ext": "js,mjs,json",
+  "ignore": [
+    "tests/",
+    "*.test.js",
+    "*.spec.js",
+    "coverage/",
+    "logs/",
+    "node_modules/"
+  ],
+  "exec": "node --trace-warnings --enable-source-maps src/app.js",
+  "env": {
+    "NODE_ENV": "staging",
+    "NODE_OPTIONS": "--max-old-space-size=1024"
+  },
+  "delay": "2000",
+  "verbose": false,
+  "restartable": "rs",
+  "colours": true,
+  "signal": "SIGTERM",
+  "events": {
+    "start": "echo '🚀 [STAGING] Weather Service starting...'",
+    "restart": "echo '🔄 [STAGING] Weather Service restarting...'",
+    "crash": "echo '💥 [STAGING] Weather Service crashed'"
+  }
+}

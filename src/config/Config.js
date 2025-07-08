@@ -1,12 +1,16 @@
-/* eslint-disable no-undef */
 import dotenv from 'dotenv';
 
 export default class Config {
   constructor() {
-    dotenv.config({ path: 'src/.env' });
-    const env = process.env.NODE_ENV || 'development';
-    console.log(`Loading environment: ${env}`); // eslint-disable-line no-console
-    dotenv.config({ path: `src/.env.${env}` });
+    // Load environment variables - handle different environments
+    try {
+      dotenv.config({ path: 'src/.env' });
+      const env = process.env.NODE_ENV || 'development';
+      console.log(`Loading environment: ${env}`); // eslint-disable-line no-console
+      dotenv.config({ path: `src/.env.${env}` });
+    } catch (error) {
+      console.warn('Could not load .env files:', error.message); // eslint-disable-line no-console
+    }
   }
 
   static getInstance() {
@@ -52,27 +56,6 @@ export default class Config {
 
   get services() {
     return {
-      user: {
-        port: process.env.USER_SERVICE_PORT,
-        name: process.env.USER_SERVICE_NAME,
-        host: process.env.USER_SERVICE_HOST,
-        protocol: process.env.MOVIE_SERVICE_PROTOCOL,
-        routePrefix: process.env.MOVIE_SERVICE_ROUTE_PREFIX
-      },
-      authentication: {
-        port: process.env.AUTH_SERVICE_PORT,
-        name: process.env.AUTH_SERVICE_NAME,
-        host: process.env.AUTH_SERVICE_HOST,
-        protocol: process.env.AUTH_SERVICE_PROTOCOL,
-        routePrefix: process.env.AUTH_SERVICE_ROUTE_PREFIX
-      },
-      product: {
-        port: process.env.PRODUCT_SERVICE_PORT,
-        name: process.env.PRODUCT_SERVICE_NAME,
-        host: process.env.PRODUCT_SERVICE_HOST,
-        protocol: process.env.PRODUCT_SERVICE_PROTOCOL,
-        routePrefix: process.env.PRODUCT_SERVICE_ROUTE_PREFIX
-      },
       weather: {
         port: process.env.WEATHER_SERVICE_PORT,
         name: process.env.WEATHER_SERVICE_NAME || 'weather',
@@ -83,13 +66,28 @@ export default class Config {
     };
   }
 
-  get db() {
+  get cache() {
     return {
+      strategy: process.env.CACHE_STRATEGY || 'memory', // 'memory' or 'redis'
+      defaultTtl: parseInt(process.env.CACHE_DEFAULT_TTL, 10) || 300000, // 5 minutes
       redis: {
-        enabled: process.env.REDIS_ENABLED,
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
+        host: process.env.REDIS_HOST || 'localhost',
+        port: parseInt(process.env.REDIS_PORT, 10) || 6379,
+        password: process.env.REDIS_PASSWORD || undefined,
+        database: parseInt(process.env.REDIS_DATABASE, 10) || 0,
+        keyPrefix: process.env.REDIS_KEY_PREFIX || 'weather:',
+        retryDelayOnFailover: parseInt(process.env.REDIS_RETRY_DELAY, 10) || 100,
+        enableReadyCheck: process.env.REDIS_ENABLE_READY_CHECK !== 'false',
+        maxRetriesPerRequest: parseInt(process.env.REDIS_MAX_RETRIES, 10) || 3
       }
+    };
+  }
+
+  get logging() {
+    return {
+      level: process.env.LOG_LEVEL || 'info', // debug, info, warn, error
+      enabledInProduction: process.env.LOG_ENABLED_IN_PROD !== 'false',
+      format: process.env.LOG_FORMAT || 'simple' // simple, json (for future extensibility)
     };
   }
 }
