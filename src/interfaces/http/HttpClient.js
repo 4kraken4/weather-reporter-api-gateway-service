@@ -4,7 +4,7 @@ import retry from 'retry';
 class HttpClient {
   constructor(baseURL) {
     this.client = axios.create({
-      baseURL,
+      baseURL: baseURL,
       timeout: 10000 // If our function takes longer than 10 seconds, trigger a failure.
     });
   }
@@ -27,7 +27,7 @@ class HttpClient {
 
           const errorCode = !error?.response ? error.code : error.response.status;
           if (
-            currentError?.error === 'ServiceUnavailableError' ||
+            currentError?.error === 'CircuitBreakerOpenError' ||
             currentError?.error === 'SequelizeConnectionRefusedError'
           ) {
             return reject(error);
