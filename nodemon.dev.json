@@ -1,0 +1,20 @@
+{
+  "watch": ["src/", "db/", ".env", ".env.development"],
+  "ext": "js,mjs,json,env",
+  "ignore": ["tests/", "*.test.js", "*.spec.js", "coverage/", "logs/", "*.log"],
+  "exec": "node --trace-warnings --enable-source-maps --inspect=0.0.0.0:9229 src/app.js",
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "weather:*",
+    "NODE_OPTIONS": "--max-old-space-size=2048"
+  },
+  "delay": "1000",
+  "verbose": true,
+  "restartable": "rs",
+  "colours": true,
+  "events": {
+    "start": "echo '🚀 [DEV] Weather Service starting with debugger on port 9229...'",
+    "restart": "echo '🔄 [DEV] Weather Service restarting...'",
+    "crash": "echo '💥 [DEV] Weather Service crashed - check logs'"
+  }
+}
